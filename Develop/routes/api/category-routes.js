@@ -8,7 +8,9 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Products
   try {
   const CategoryData = await Category.findAll({ 
+    attributes: ["id", "category_name"],
     include: [{ model: Product}],
+    attributes: ["id", "product_name", "price", "stock", "category_id"],
   });
   
   res.status(200).json(CategoryData); 
@@ -22,7 +24,7 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Products
   try {
     const CategoryData = await Category.findByPk(req.params.id, {
-      include: [{ model: Product}], 
+      include: [{ model: Product , attributes: ["id", "product_name", "price", "stock", "category_id"], }], 
     });
     if (!CategoryData) {
       res.status(404).json({message: "Invalid Category ID"});

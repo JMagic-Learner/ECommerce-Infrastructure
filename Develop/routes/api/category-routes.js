@@ -7,15 +7,17 @@ router.get('/', async (req, res) => {
   // find all categories
   // be sure to include its associated Products
   try {
-  const CategoryData = await Category.findAll({ 
-    attributes: ["id", "category_name"],
-    include: [{ model: Product,
-    attributes: ["id", "product_name", "price", "stock", "category_id"]}]
-  })
-  
-  res.status(200).json(CategoryData); 
-} catch (err) {
-  res.status(500).json(err);
+    const CategoryData = await Category.findAll({
+      attributes: ["id", "category_name"],
+      include: [{
+        model: Product,
+        attributes: ["id", "product_name", "price", "stock", "category_id"]
+      }]
+    })
+
+    res.status(200).json(CategoryData);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
@@ -24,17 +26,22 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Products
   try {
     const CategoryData = await Category.findByPk(req.params.id, {
-      include: [{ model: Product , attributes: ["id", "product_name", "price", "stock", "category_id"], }], 
+      include: [
+        { 
+          model: Product, 
+          attributes: ["id", "product_name", "price", "stock", "category_id"], 
+        },
+      ],
     });
     if (!CategoryData) {
-      res.status(404).json({message: "Invalid Category ID"});
+      res.status(404).json({ message: "Invalid Category ID" });
       return;
     }
     res.status(200).json(CategoryData);
   } catch (err) {
     res.status(500).json(err);
   }
-  
+
 });
 
 router.post('/', async (req, res) => {
@@ -51,7 +58,7 @@ router.put('/:id', async (req, res) => {
   try {
     const newCategory = await Category.create({
       where: {
-        id:req.params.id,
+        id: req.params.id,
       }
     });
     res.status(200).json(newCategory);
@@ -70,7 +77,7 @@ router.delete('/:id', async (req, res) => {
     });
 
     if (!CategoryData) {
-      res.status(404).json({ message: 'No product category found with that id'});
+      res.status(404).json({ message: 'No product category found with that id' });
       return;
     }
 

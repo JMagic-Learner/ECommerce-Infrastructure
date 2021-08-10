@@ -15,20 +15,22 @@ Product.belongsTo(Category, {
 
 Category.hasMany(Product, {
   foreignKey: 'category_id',
-  onDelete: 'CASCADE'
 });
 
 // Products belongToMany Tags (through ProductTag)
 
-Product.belongsToMany(Tag, { through: ProductTag } );
-  //{
-  //foriegnKey: 'tag_id',
-  //onDelete: 'CASCADE'
-//});
-
+Product.belongsToMany(Tag, 
+  { through: ProductTag,
+    foriegnKey:'product_id' 
+  }
+  );
 
 // Tags belongToMany Products (through ProductTag)
-Tag.belongsToMany(Product, {through: ProductTag}  );
+Tag.belongsToMany(Product, 
+  {through: ProductTag,
+  foriegnKey:'tag_id'
+  }  
+  );
   //{
   //foreignKey: 'tag_id',
   //onDelete: 'CASCADE'
